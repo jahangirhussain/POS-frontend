@@ -106,19 +106,19 @@ const ProductPage: FC = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       axios
-        .get("http://localhost:5500/category/categories")
+        .get(process.env.REACT_APP_API_URL + "/category/categories")
         .then((res) => dispatch(set_categories(res.data)))
         .catch((err) => {
           alert(err?.response?.message);
         });
       axios
-        .get("http://localhost:5500/product/products")
+        .get(process.env.REACT_APP_API_URL + "/product/products")
         .then((res) => dispatch(set_products(res.data)))
         .catch((err) => {
           alert(err?.response?.message);
         });
       axios
-        .get("http://localhost:5500/unit/units")
+        .get(process.env.REACT_APP_API_URL + "/unit/units")
         .then((res) => dispatch(set_units(res.data)))
         .catch((err) => {
           alert(err?.response?.message);
@@ -126,7 +126,7 @@ const ProductPage: FC = () => {
     }, [dispatch]);
     if (submitAction === "add") {
       axios
-        .post("http://localhost:5500/product/new", formData)
+        .post(process.env.REACT_APP_API_URL + "/product/new", formData)
         .then((res) => {
           snack.onResponse({
             message: "Product " + res.data.id + " have been Created",
@@ -153,7 +153,10 @@ const ProductPage: FC = () => {
         });
     } else if (submitAction === "update") {
       axios
-        .post("http://localhost:5500/product/update/" + values.id, formData)
+        .post(
+          process.env.REACT_APP_API_URL + "/product/update/" + values.id,
+          formData
+        )
         .then((res) => {
           snack.onResponse({
             message: res.data.message,
@@ -180,7 +183,7 @@ const ProductPage: FC = () => {
         });
     } else if (submitAction === "delete") {
       axios
-        .delete("http://localhost:5500/product/delete/" + values.id)
+        .delete(process.env.REACT_APP_API_URL + "/product/delete/" + values.id)
         .then((res) => {
           snack.onResponse({
             message: res.data.message,

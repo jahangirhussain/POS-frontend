@@ -30,7 +30,7 @@ const Dashboard: FC = () => {
     axios.defaults.headers.delete.Authorization =
       "barear " + cookies.auth.token;
 
-    axios.get("http://localhost:5500/cart/carts").then((res) => {
+    axios.get(process.env.REACT_APP_API_URL + "/cart/carts").then((res) => {
       let carts = res.data.map((c: any) => {
         return {
           cartId: c._id,
@@ -45,7 +45,7 @@ const Dashboard: FC = () => {
       setCarts(carts);
     });
 
-    axios.get("http://localhost:5500/user/users").then((res) => {
+    axios.get(process.env.REACT_APP_API_URL + "/user/users").then((res) => {
       setUsers(res.data);
     });
   }, [cookies.auth.token]);
@@ -99,7 +99,11 @@ const Dashboard: FC = () => {
                   key={u.username}
                   onClick={(e) => {
                     axios
-                      .delete("http://localhost:5500/user/delete/" + u.username)
+                      .delete(
+                        process.env.REACT_APP_API_URL +
+                          "/user/delete/" +
+                          u.username
+                      )
                       .then((res) => {
                         snack.onResponse({
                           message: res.data.message,
@@ -123,25 +127,26 @@ const Dashboard: FC = () => {
                 validationSchema={userSchema}
                 onSubmit={(values) => {
                   axios
-                    .post("http://localhost:5500/user/create", {
+                    .post(process.env.REACT_APP_API_URL + "/user/create", {
                       username: values.username,
                       password: values.password,
                       admin: values.isAdmin,
                     })
                     .then((res) => {
                       snack.onResponse({
-                        message: res.data.username+" has been created",
+                        message: res.data.username + " has been created",
                         status: res.status,
                       });
                       setUsers((p) => {
                         return [...p, res.data];
                       });
-                    }).catch(err =>{
+                    })
+                    .catch((err) => {
                       snack.onResponse({
                         message: err.response.data.message,
                         status: err.response.status,
                       });
-                    })
+                    });
                 }}
               >
                 <Form className={style.form}>

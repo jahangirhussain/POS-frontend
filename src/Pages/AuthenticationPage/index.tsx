@@ -24,7 +24,7 @@ const AuthenticationPage: FC = () => {
       <Formik
         onSubmit={(values) => {
           axios
-            .post("http://localhost:5500/user/login", {
+            .post(process.env.REACT_APP_API_URL + "/user/login", {
               username: values.username,
               password: values.password,
             })
