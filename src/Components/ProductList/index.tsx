@@ -87,17 +87,23 @@ const ProductList: FC = () => {
         />
         <Select
           onChange={onChangeCategoryFilterHandler}
-          options={[{key:'all',value:'all'},...categories.map((cate) => {
-            if (cate.categoryName)
-              return { key: cate.categoryName, value: cate.categoryName };
-            return { key: "", value: "" };
-          })]}
+          options={[
+            { key: "all", value: "all" },
+            ...categories?.map((cate) => {
+              if (cate.categoryName)
+                return { key: cate.categoryName, value: cate.categoryName };
+              return { key: "", value: "" };
+            }),
+          ]}
         />
         <Select
           onChange={onChangeUnitOfMeasureFilterHandler}
-          options={[{key:'all',value:'all'},...unitOfMeasures.map(p => {
-            return {key:p.unitOfMeasureName, value:p.unitOfMeasureName}
-          })]}
+          options={[
+            { key: "all", value: "all" },
+            ...unitOfMeasures.map((p) => {
+              return { key: p.unitOfMeasureName, value: p.unitOfMeasureName };
+            }),
+          ]}
         />
       </div>
       <div className={style.productList}>
@@ -110,7 +116,7 @@ const ProductList: FC = () => {
               media={p.media}
               unitOfMeasure={p.unitOfMeasure.unitOfMeasureName}
               category={p.category.categoryName}
-            />  
+            />
           ) : (
             <ProductRow
               key={p.id}

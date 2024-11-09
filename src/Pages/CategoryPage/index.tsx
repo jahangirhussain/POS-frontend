@@ -41,8 +41,8 @@ const CategoryPage: FC = () => {
       .get("http://localhost:5500/category/categories")
       .then((res) => dispatch(set_categories(res.data)))
       .catch((err) => {
-        alert(err.response.message);
-      })
+        alert(err?.response?.message);
+      });
   }, [dispatch]);
   return (
     <div className={style.container}>
@@ -148,7 +148,7 @@ const CategoryPage: FC = () => {
               <SelectField
                 name="selectedCategory"
                 width="100%"
-                options={categories.map((p) => {
+                options={categories?.map((p) => {
                   return { key: p.categoryName, value: p.categoryName };
                 })}
               />
@@ -193,7 +193,7 @@ const CategoryPage: FC = () => {
               <SelectField
                 name="selectedCategory"
                 width="100%"
-                options={categories.map((p) => {
+                options={categories?.map((p) => {
                   return { key: p.categoryName, value: p.categoryName };
                 })}
               />

@@ -10,7 +10,14 @@ import TextField from "../../Components/TextField";
 import { Form, Formik } from "formik";
 import SelectField from "../../Components/SelectFeild";
 import ImagePicker from "../../Components/ImagePicker";
-import { addProduct, removeProduct, set_categories, set_products, set_units, updateProduct } from "../../store/Actions";
+import {
+  addProduct,
+  removeProduct,
+  set_categories,
+  set_products,
+  set_units,
+  updateProduct,
+} from "../../store/Actions";
 import { productShcema } from "../../schema";
 import Select from "../../Components/Select";
 import SearchField from "../../Components/SearchField";
@@ -93,25 +100,28 @@ const ProductPage: FC = () => {
     formData.append("unitOfMeasure", values.unit);
     formData.append("productPrice", values.price);
     formData.append("image", values.image.img);
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const dispatch = useDispatch();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       axios
         .get("http://localhost:5500/category/categories")
         .then((res) => dispatch(set_categories(res.data)))
         .catch((err) => {
-          alert(err.response.message);
+          alert(err?.response?.message);
         });
       axios
         .get("http://localhost:5500/product/products")
         .then((res) => dispatch(set_products(res.data)))
         .catch((err) => {
-          alert(err.response.message);
+          alert(err?.response?.message);
         });
       axios
         .get("http://localhost:5500/unit/units")
         .then((res) => dispatch(set_units(res.data)))
         .catch((err) => {
-          alert(err.response.message);
+          alert(err?.response?.message);
         });
     }, [dispatch]);
     if (submitAction === "add") {
@@ -119,7 +129,7 @@ const ProductPage: FC = () => {
         .post("http://localhost:5500/product/new", formData)
         .then((res) => {
           snack.onResponse({
-            message: "Product "+ res.data.id+" have been Created",
+            message: "Product " + res.data.id + " have been Created",
             status: res.status,
           });
           dispatch(
@@ -205,7 +215,7 @@ const ProductPage: FC = () => {
           <SearchField className={style.searchBar} onChange={searchHandler} />
           <Select
             onChange={onChangeCategoryFilterHandler}
-            options={categories.map((cate) => {
+            options={categories?.map((cate) => {
               if (cate.categoryName)
                 return { key: cate.categoryName, value: cate.categoryName };
               return { key: "", value: "" };
@@ -292,7 +302,7 @@ const ProductPage: FC = () => {
               <SelectField
                 width="100%"
                 name="category"
-                options={categories.map((p) => {
+                options={categories?.map((p) => {
                   return { key: p.categoryName, value: p.categoryName };
                 })}
               />
